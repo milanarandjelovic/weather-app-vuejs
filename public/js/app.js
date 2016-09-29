@@ -12321,7 +12321,7 @@ if (module.hot) {(function () {  module.hot.accept()
 })()}
 },{"./Weather.vue":8,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],8:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("/* line 2, stdin */\n.Weather {\n  margin-top: 5em; }\n  /* line 5, stdin */\n  .Weather .Weather__box h1 {\n    font-size: 4.6em; }\n  /* line 10, stdin */\n  .Weather .Weather__city h3 {\n    font-size: 4.2em; }\n  /* line 15, stdin */\n  .Weather .Weather__temp h3, .Weather .Weather__desc h3 {\n    font-size: 3.5em; }\n")
+var __vueify_style__ = __vueify_insert__.insert("/* line 2, stdin */\n.Weather {\n  margin-top: 5em; }\n  /* line 5, stdin */\n  .Weather .Weather__box h1 {\n    font-size: 4.6em; }\n  /* line 10, stdin */\n  .Weather .Weather__city h3 {\n    font-size: 4.2em; }\n  /* line 15, stdin */\n  .Weather .Weather__temp h3, .Weather .Weather__desc h3 {\n    font-size: 3.5em; }\n  /* line 21, stdin */\n  .Weather .Weather__temp h3 a {\n    text-decoration: none; }\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12330,7 +12330,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   data: function data() {
     return {
-      units: 'metric',
+      units: 'imperial',
+      unit: 'F',
+      unitChar: false,
       userLocation: {
         lat: '',
         lon: ''
@@ -12368,27 +12370,37 @@ exports.default = {
       var lon = '&lon=' + this.userLocation.lon;
       var u = '&units=' + this.units;
       var apikey = '&APPID=061f24cf3cde2f60644a8240302983f2';
-      console.log(apiWeather + lat + lon + apikey + u);
       this.$http.get(apiWeather + lat + lon + apikey + u).then(function (res) {
         _this2.currentWeather.city = res.body.name;
         _this2.currentWeather.country = res.body.sys.country;
         _this2.currentWeather.temp = res.body.main.temp;
         _this2.currentWeather.desc = res.body.weather[0].main;
-        console.log(res.body);
       }).catch(function (err) {
         console.log(err);
       });
+    },
+    changeTemp: function changeTemp() {
+      this.unitChar = !this.unitChar;
+      if (this.unitChar) {
+        this.units = 'metric';
+        this.unit = 'C';
+        this.getCurrentLocation();
+      } else {
+        this.units = 'imperial';
+        this.unit = 'F';
+        this.getCurrentLocation();
+      }
     }
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"Weather col-md-6 col-md-offset-3\">\n  <div class=\"Weather__box\">\n    <h1 class=\"text-center\">Free Code Camp</h1>\n    <h1 class=\"text-center\">Weather App</h1>\n    <div class=\"Weather__city text-center\">\n      <h3>{{ currentWeather.city }}, {{ currentWeather.country }}</h3>\n    </div>\n    <div class=\"Weather__temp text-center\">\n      <h3>{{ currentWeather.temp }} C</h3>\n    </div>\n    <div class=\"Weather__desc text-center\">\n      <h3>{{ currentWeather.desc }}</h3>\n    </div>\n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"Weather col-md-6 col-md-offset-3\">\n  <div class=\"Weather__box\">\n    <h1 class=\"text-center\">Free Code Camp</h1>\n    <h1 class=\"text-center\">Weather App</h1>\n    <div class=\"Weather__city text-center\">\n      <h3>{{ currentWeather.city }}, {{ currentWeather.country }}</h3>\n    </div>\n    <div class=\"Weather__temp text-center\">\n      <h3>\n        {{ currentWeather.temp }} ° <a @click.prevent=\"changeTemp\"> {{ unit }}</a>\n      </h3>\n    </div>\n    <div class=\"Weather__desc text-center\">\n      <h3>{{ currentWeather.desc }}</h3>\n    </div>\n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["/* line 2, stdin */\n.Weather {\n  margin-top: 5em; }\n  /* line 5, stdin */\n  .Weather .Weather__box h1 {\n    font-size: 4.6em; }\n  /* line 10, stdin */\n  .Weather .Weather__city h3 {\n    font-size: 4.2em; }\n  /* line 15, stdin */\n  .Weather .Weather__temp h3, .Weather .Weather__desc h3 {\n    font-size: 3.5em; }\n"] = false
+    __vueify_insert__.cache["/* line 2, stdin */\n.Weather {\n  margin-top: 5em; }\n  /* line 5, stdin */\n  .Weather .Weather__box h1 {\n    font-size: 4.6em; }\n  /* line 10, stdin */\n  .Weather .Weather__city h3 {\n    font-size: 4.2em; }\n  /* line 15, stdin */\n  .Weather .Weather__temp h3, .Weather .Weather__desc h3 {\n    font-size: 3.5em; }\n  /* line 21, stdin */\n  .Weather .Weather__temp h3 a {\n    text-decoration: none; }\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {

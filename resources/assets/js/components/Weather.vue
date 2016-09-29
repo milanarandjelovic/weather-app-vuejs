@@ -7,7 +7,9 @@
         <h3>{{ currentWeather.city }}, {{ currentWeather.country }}</h3>
       </div>
       <div class="Weather__temp text-center">
-        <h3>{{ currentWeather.temp }} C</h3>
+        <h3>
+          {{ currentWeather.temp }} &#176; <a @click.prevent="changeTemp"> {{ unit }}</a>
+        </h3>
       </div>
       <div class="Weather__desc text-center">
         <h3>{{ currentWeather.desc }}</h3>
@@ -20,7 +22,9 @@
   export default {
     data () {
       return {
-        units: 'metric',
+        units: 'imperial',
+        unit: 'F',
+        unitChar: false,
         userLocation: {
           lat: '',
           lon: ''
@@ -55,16 +59,27 @@
         let lon = '&lon=' + this.userLocation.lon
         let u = '&units=' + this.units
         let apikey = '&APPID=061f24cf3cde2f60644a8240302983f2'
-        console.log(apiWeather + lat + lon + apikey + u)
         this.$http.get(apiWeather + lat + lon + apikey + u).then(res => {
           this.currentWeather.city = res.body.name
           this.currentWeather.country = res.body.sys.country
           this.currentWeather.temp = res.body.main.temp
           this.currentWeather.desc = res.body.weather[0].main
-          console.log(res.body)
         }).catch(err => {
           console.log(err)
         })
+      },
+
+      changeTemp () {
+        this.unitChar = !this.unitChar
+        if (this.unitChar) {
+          this.units = 'metric'
+          this.unit = 'C'
+          this.getCurrentLocation()
+        } else {
+          this.units = 'imperial'
+          this.unit = 'F'
+          this.getCurrentLocation()
+        }
       }
     }
   }
@@ -74,9 +89,9 @@
   .Weather {
     margin-top: 5em;
     .Weather__box {
-     h1 {
-       font-size: 4.6em;
-     }
+      h1 {
+        font-size: 4.6em;
+      }
     }
     .Weather__city {
       h3 {
@@ -86,6 +101,13 @@
     .Weather__temp, .Weather__desc {
       h3 {
         font-size: 3.5em;
+      }
+    }
+    .Weather__temp {
+      h3 {
+        a {
+          text-decoration: none;
+        }
       }
     }
   }
