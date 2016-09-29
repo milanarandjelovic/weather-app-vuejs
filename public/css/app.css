@@ -7952,4 +7952,8 @@ button.close {
   overflow: visible;
   clip: auto; }
 
+body {
+  background-color: #161616;
+  color: #ffffff; }
+
 /*# sourceMappingURL=app.css.map */

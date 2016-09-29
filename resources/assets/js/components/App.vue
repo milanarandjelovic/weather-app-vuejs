@@ -1,14 +1,13 @@
 <template>
   <div id="app">
-    App Component
+    <weather></weather>
   </div>
 </template>
 
 <script>
+  import Weather from './Weather.vue'
   export default {
-    data () {
-      return {}
-    }
+    components: { Weather }
   }
 </script>
 

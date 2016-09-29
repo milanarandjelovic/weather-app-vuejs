@@ -12288,18 +12288,23 @@ new _vue2.default({
 },{"./components/App.vue":7,"vue":4,"vue-resource":3}],7:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n")
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _Weather = require('./Weather.vue');
+
+var _Weather2 = _interopRequireDefault(_Weather);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
-  data: function data() {
-    return {};
-  }
+  components: { Weather: _Weather2.default }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"app\">\n  App Component\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"app\">\n  <weather></weather>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -12312,6 +12317,84 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.createRecord("_v-054d6656", module.exports)
   } else {
     hotAPI.update("_v-054d6656", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"./Weather.vue":8,"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],8:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("/* line 2, stdin */\n.Weather {\n  margin-top: 5em; }\n  /* line 5, stdin */\n  .Weather .Weather__box h1 {\n    font-size: 4.6em; }\n  /* line 10, stdin */\n  .Weather .Weather__city h3 {\n    font-size: 4.2em; }\n  /* line 15, stdin */\n  .Weather .Weather__temp h3, .Weather .Weather__desc h3 {\n    font-size: 3.5em; }\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  data: function data() {
+    return {
+      units: 'metric',
+      userLocation: {
+        lat: '',
+        lon: ''
+      },
+      currentWeather: {
+        city: '',
+        country: '',
+        temp: '',
+        desc: ''
+      }
+    };
+  },
+  ready: function ready() {
+    this.getCurrentLocation();
+  },
+
+
+  methods: {
+    getCurrentLocation: function getCurrentLocation() {
+      var _this = this;
+
+      this.$http.get('http://ip-api.com/json').then(function (res) {
+        _this.userLocation.lat = res.body.lat;
+        _this.userLocation.lon = res.body.lon;
+        _this.getCurrentWeather();
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+    getCurrentWeather: function getCurrentWeather() {
+      var _this2 = this;
+
+      var apiWeather = 'http://api.openweathermap.org/data/2.5/weather?';
+      var lat = 'lat=' + this.userLocation.lat;
+      var lon = '&lon=' + this.userLocation.lon;
+      var u = '&units=' + this.units;
+      var apikey = '&APPID=061f24cf3cde2f60644a8240302983f2';
+      console.log(apiWeather + lat + lon + apikey + u);
+      this.$http.get(apiWeather + lat + lon + apikey + u).then(function (res) {
+        _this2.currentWeather.city = res.body.name;
+        _this2.currentWeather.country = res.body.sys.country;
+        _this2.currentWeather.temp = res.body.main.temp;
+        _this2.currentWeather.desc = res.body.weather[0].main;
+        console.log(res.body);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"Weather col-md-6 col-md-offset-3\">\n  <div class=\"Weather__box\">\n    <h1 class=\"text-center\">Free Code Camp</h1>\n    <h1 class=\"text-center\">Weather App</h1>\n    <div class=\"Weather__city text-center\">\n      <h3>{{ currentWeather.city }}, {{ currentWeather.country }}</h3>\n    </div>\n    <div class=\"Weather__temp text-center\">\n      <h3>{{ currentWeather.temp }} C</h3>\n    </div>\n    <div class=\"Weather__desc text-center\">\n      <h3>{{ currentWeather.desc }}</h3>\n    </div>\n  </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["/* line 2, stdin */\n.Weather {\n  margin-top: 5em; }\n  /* line 5, stdin */\n  .Weather .Weather__box h1 {\n    font-size: 4.6em; }\n  /* line 10, stdin */\n  .Weather .Weather__city h3 {\n    font-size: 4.2em; }\n  /* line 15, stdin */\n  .Weather .Weather__temp h3, .Weather .Weather__desc h3 {\n    font-size: 3.5em; }\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-3ddeac29", module.exports)
+  } else {
+    hotAPI.update("_v-3ddeac29", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}]},{},[6]);
