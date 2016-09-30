@@ -4,8 +4,14 @@
 * IP API [ip-api](http://ip-api.com/docs/)
 * Open Weathermap API [openweathermap](http://openweathermap.org/api)
 
-### Clone repo and install node modules
+### Install
+
+###### 1. Clone repo 
  
 `git clone https://github.com/milanarandjelovic/weather-app-vuejs.git`
 
+###### 2. Install dependencies
 `npm install`
+
+###### 3. Run the server
+`node server.js`   or   `php -S localhost:8080`
